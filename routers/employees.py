@@ -22,7 +22,7 @@ class Employee(BaseModel):
     id: int | None = None
     name: str
     address: str
-    rentals: int
+    rentals: int | None = None
     username: str
     password: str
 
