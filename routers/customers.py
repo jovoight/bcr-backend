@@ -22,7 +22,7 @@ class Customer(BaseModel):
     id: int | None = None
     name: str
     address: str
-    late_fees: float
+    late_fees: float | None = None
 
 
 @router.post("/")

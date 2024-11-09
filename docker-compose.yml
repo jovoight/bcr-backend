@@ -1,0 +1,11 @@
+services:
+  bcr-backend:
+    image: bcr-backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    platform: linux/amd64
+    ports:
+      - 8084:8084
+    volumes:
+      - ./:/app
