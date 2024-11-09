@@ -13,7 +13,7 @@ router = APIRouter(
 @router.get("/")
 def get_customers():
     query = sa.text("SELECT * FROM customers")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     customers = pd.read_sql(query, engine)
     return customers.to_dict(orient='records')
 
@@ -33,7 +33,7 @@ def create_customer(customer: Customer):
         VALUES
         ('{customer.name}','{customer.address}',0)
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -57,7 +57,7 @@ def update_customer(customer: Customer):
             late_fees = {customer.late_fees}
         WHERE id = {customer.id}
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -73,7 +73,7 @@ def update_customer(customer: Customer):
 @router.delete("/{customer_id}")
 def delete_customer(customer_id: int):
     query = sa.text(f"DELETE FROM customers WHERE id = {customer_id}")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)

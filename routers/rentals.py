@@ -13,7 +13,7 @@ router = APIRouter(
 @router.get("/")
 def get_rentals():
     query = sa.text("SELECT * FROM rentals")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     rentals = pd.read_sql(query, engine)
     return rentals.to_dict(orient='records')
 
@@ -52,7 +52,7 @@ def create_rental(rental: Rental):
             '{rental.due_date}'
         )
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -81,7 +81,7 @@ def update_rental(rental: Rental):
             return_date = '{rental.return_date}'
         WHERE id = {rental.id}
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -97,7 +97,7 @@ def update_rental(rental: Rental):
 @router.delete("/{rental_id}")
 def delete_rental(rental_id: int):
     query = sa.text(f"DELETE FROM rentals WHERE id = {rental_id}")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)

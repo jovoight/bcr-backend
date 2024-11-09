@@ -7,11 +7,17 @@ WORKDIR /app
 # Copy the requirements file
 COPY requirements.txt requirements.txt
 
+# Copy the application code
+COPY . /app
+
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application code
-COPY . .
+# SQLite DB volume
+VOLUME /app/db
 
-# Run Gunicorn
+# Open port 8084
+EXPOSE 8084
+
+# Run the server 
 CMD ["fastapi", "run", "main.py", "--port", "8084"]

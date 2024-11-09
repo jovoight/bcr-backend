@@ -13,7 +13,7 @@ router = APIRouter(
 @router.get("/")
 def get_employees():
     query = sa.text("SELECT * FROM employees")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     employees = pd.read_sql(query, engine)
     return employees.to_dict(orient='records')
 
@@ -35,7 +35,7 @@ def create_employee(employee: Employee):
         VALUES
         ('{employee.name}','{employee.address}',0,'{employee.username}','{employee.password}')
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -61,7 +61,7 @@ def update_employee(employee: Employee):
             password = '{employee.password}'
         WHERE id = {employee.id}
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -77,7 +77,7 @@ def update_employee(employee: Employee):
 @router.delete("/{employee_id}")
 def delete_employee(employee_id: int):
     query = sa.text(f"DELETE FROM employees WHERE id = {employee_id}")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)

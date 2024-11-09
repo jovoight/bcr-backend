@@ -13,7 +13,7 @@ router = APIRouter(
 @router.get("/")
 def get_dvds():
     query = sa.text("SELECT * FROM dvds")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     dvds = pd.read_sql(query, engine)
     return dvds.to_dict(orient='records')
 
@@ -35,7 +35,7 @@ def create_dvd(dvd: Dvd):
         VALUES
         ('{dvd.name}','{dvd.status}','{dvd.description}','{dvd.genre}','{dvd.rental_category}')
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -61,7 +61,7 @@ def update_dvd(dvd: Dvd):
             rental_category = '{dvd.rental_category}'
         WHERE id = {dvd.id}
     """)
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
@@ -77,7 +77,7 @@ def update_dvd(dvd: Dvd):
 @router.delete("/{dvd_id}")
 def delete_dvd(dvd_id: int):
     query = sa.text(f"DELETE FROM dvds WHERE id = {dvd_id}")
-    engine = sa.create_engine("sqlite:///bcr.db")
+    engine = sa.create_engine("sqlite:///db/bcr.db")
     connection = engine.connect()
     try:
         connection.execute(query)
